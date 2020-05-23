@@ -1,89 +1,92 @@
 <p align="center">
-<img src="./resources/vue-plugin-boilerplate.png" width="400">
+<img src="./resources/vue-catch-hrefs.png" width="400">
 </p>
 
 ---
 
-> This plugin is created for **plugin creators** and the **devs who want to make their own work open-sourced**. Enjoy!
+# vue-catch-hrefs
 
-This is a package for creating Vue plugins easily. You'll be able to create your own open-sourced plugin easily with great features.
+This plugin aims to catch clicks on `<a href="...">` links referring to your app from user generated content in order to redirect them to your local vue-router.
 
-<h3 align="center"><a href="https://github.com/f/vue-plugin-boilerplate/wiki">🚀 Open step by step guide to create a robust and well-designed Vue Plugin</a></h3>
+Listening to the whole DOM allows us to trigger routing to the app from anywhere on the DOM.
 
-## Features
-- Create Vue **components**, **directives** on install.
-- Create or **inject Vuex stores**.
-- **Add runtime accessors** to Vue instances.
-- Configured Storybook integration.
-- **Nuxt** compatible.
-- **TypeScript** type definitions.
-- Including a **Kitchensink**
+You can manipulate data and cancel events easily with the global event bus or with your path formatter.
 
 ## Installation
 
-### Using **GitHub Template Repository**
-
-GitHub provides a feature to create repositories from another repositories. You can simply click the botton above to create a new project from this project structure.
-
-Click following button to create a new project from this one or click the one above.
-
-<a href="https://github.com/f/vue-plugin-boilerplate/generate">
-  <img src="./resources/use-this-template-button.png" width="150" />
-</a>
-
-It will ask you the repository name and it will be automatically cloned.
-
-### Using Shell
+Install the plugin from your favorite package manager.
 
 ```bash
-git clone --depth 1 https://github.com/f/vue-plugin-boilerplate.git vue-my-cool-plugin
-cd vue-my-cool-plugin
+npm install vue-catch-hrefs
 ```
 
-### `press` Command
+Install the plugin in your app.
 
-For both **shell** and **GitHub Template** you should run the `press` command.
+```javascript
+// Setup your router somehow [...]
+import router from "./router"
+// VueCatchHrefs imports
+import VueCatchHrefs from "vue-catch-hrefs"
+import pathFormatter from "~/your-plugins-path/pathFormatter"
 
-`press` file is a script to rewrite some words in this package according to your changes. When you run it you'll be prompted as following:
-
-```
-Your plugin name? (with dahshes like vue-plugin-boilerplate): vue-my-cool-plugin
-Your plugin class name? (pascal case like VuePlugin): VueMyCoolPlugin
-Your plugin accesor name? (like "helloWorld" to be used as this.$helloWorld): cool
-Your plugin's GitHub address? (like "f/vue-plugin-boilerplate"): f/vue-my-cool-plugin
-
-Heya! Your package vue-querystring-state is ready to develop!
-
-Pressing created some leftovers. You can run following commands to remove them now:
-
-  ...
-
+Vue.use(VueCatchHrefs, router, pathFormatter)
 ```
 
-And your package will be ready to develop!
+## Usage
 
-Do not forget to edit `package.json` details!
+The plugin listens to your apps clicks on <a> elements.
 
-## Plugin Development
+From that, it catches up the href location and matches it with your app url.
 
-**[Please read Wiki to deep dive into plugin development.](https://github.com/f/vue-plugin-boilerplate/wiki)**
+If it does, then the content of the href is routed to your vue-router instance.
 
-## Examples
+You can catch the content of the matched link from anywhere in your app using the global event bus.
 
-In `examples` file, you'll see a folder named `kitchensink`. You can rename or duplicate it to show many features to your user.
+You can also format the path using your own parameters with your own formatter.
 
-## Storybook
+### Global event bus
 
-Your plugin includes a `.storybook` folder includes the **showcase** of your plugin, you can simply start adding your stories of your components.
+The event bus can be used to listen the anchor links on the page and redirect them to your router or trigger action in components with it.
 
-**Storybook will also be really useful and is recommended on development stage of your plugin.**
+```javascript
+// ~/components/YourComponent.vue
+import { routeEventBus } from "vue-catch-hrefs"
 
-## Plugin Testing
+export default {
+  name: "YourComponent",
 
-This boilerplate doesn't have an automated test yet. But this boilerplate provides a nice `examples` directory runs with **Poi**.
+  mounted() {
+    routeEventBus.$on("href", ({ path, from, event }) => {
+      // Your data manipulation...
+      console.log({ 
+         path, // The path matched after formatting
+         from, // The <a> element matched
+         event // The MouseEvent caught
+      })
+    })
+  }
+}
+```
 
-You can make them run `yarn example:kitchensink` to view your plugin running.
+### Path formatter
 
-### License
+The path formatter can be used to manipulate the data and/or cancel the redirection.
 
-MIT
+The formatter must return a string value, corresponding to the path that will be sent to your router, or `false` that will cancel the redirection and fire the original click on the href.
+
+```javascript
+// ~/plugins/vue-catch-hrefs/path-formatter.js
+export default (path, currentRoute) => {
+  // Remove the query params after the first one
+  if (path.indexOf("&") > -1) {
+    path = path.substring(0, path.indexOf("&"))
+  }
+  
+  // If the link is an anchor path, cancel the redirection.
+  if (currentRoute.path + "#" === path) {
+    return false
+  }
+
+  return path
+}
+```
