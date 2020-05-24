@@ -30,8 +30,8 @@ export default {
       if (from) {
         const appPath = window.location.protocol + "//" + window.location.host
 
+        // Check if the target has the `v-` data attribute; meaning it can be a router link
         if (Object.keys(from.dataset).toString().includes('v-')) {
-          // This might be a router link; break the event
           return
         }
 

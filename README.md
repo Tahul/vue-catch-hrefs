@@ -76,6 +76,8 @@ The path formatter can be used to manipulate the data and/or cancel the redirect
 
 The formatter must return a string value, corresponding to the path that will be sent to your router, or `false` that will cancel the redirection and fire the original click on the href.
 
+The string returned will be sent to your vue-router as a `path` attribute.
+
 ```javascript
 // ~/plugins/vue-catch-hrefs/path-formatter.js
 export default (path, currentRoute) => {
