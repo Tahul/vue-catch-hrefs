@@ -23,17 +23,20 @@ export default {
       )
     }
 
-    document.body.onclick = (event) => {
+    window.addEventListener('click', (event) => {
+      const { metaKey, altKey, ctrlKey, shiftKey, defaultPrevented } = event
+
       let from = findParent("a", event.target || event.srcElement)
+
+      // Don't handle when preventDefault called
+      if (defaultPrevented) return
+
+      // Don't handle with control keys
+      if (metaKey || altKey || ctrlKey || shiftKey) return
 
       // If the event target is a <a> link continue
       if (from) {
         const appPath = window.location.protocol + "//" + window.location.host
-
-        // Check if the target has the `v-` data attribute; meaning it can be a router link
-        if (Object.keys(from.dataset).toString().includes('v-')) {
-          return
-        }
 
         // If the element href origin includes the app base path
         if (from.href.includes(appPath)) {
@@ -55,13 +58,15 @@ export default {
             // Emit the routeEventBus `href` event
             routeEventBus.$emit("href", { path, from, event })
 
-            // Push the path to the router
-            router.push({
-              path,
-            })
+            if (path !== 'cancel') {
+              // Push the path to the router
+              router.push({
+                path,
+              })
+            }
           }
         }
       }
-    }
+    })
   }
 }

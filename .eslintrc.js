@@ -6,7 +6,7 @@ module.exports = {
 
   extends: ['prettier'],
   // required to lint *.vue files
-  plugins: ['prettier', 'html'],
+  plugins: ['prettier'],
 
   rules: {
     'prettier/prettier': ['error']
