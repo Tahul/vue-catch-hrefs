@@ -1,15 +1,15 @@
 /**
  * Find first parent with specified tag name.
  *
- * @param Tag name
+ * @param tagName
  * @param el
  * @returns {null|*}
  */
-export const findParent = (tagname, el) => {
+export const findParent = (tagName, el) => {
   // Loop on element
   while (el) {
     // Check if target is specified tag name
-    if ((el.nodeName || el.tagName).toLowerCase() === tagname.toLowerCase()) {
+    if ((el.nodeName || el.tagName).toLowerCase() === tagName.toLowerCase()) {
       return el
     }
 

@@ -85,6 +85,7 @@ export default (path, currentRoute) => {
   }
   
   // If the link is an anchor path, cancel the redirection.
+  // This click will be handled through component event listener.
   if (currentRoute.path + "#" === path) {
     return false
   }
@@ -93,3 +94,25 @@ export default (path, currentRoute) => {
   return path
 }
 ```
+
+Once you have written your own path formatter, you have to add it to the plugin initialization.
+
+To do so, pass it as a parameter in your `Vue.use` instruction.
+
+## Examples of usage
+
+I'm using this plugin on [Zouw.app](https://zouw.app) to parse timecodes used in YouTube HTML descriptions from the YouTube API.
+
+I'm also using it to re-route original YouTube links to my app.
+
+I can listen to the events from the caught links clicks with the global event bus, and interact with the YouTube player using the data inside the original YouTube URL.
+
+I also tried it on my personal website [yael.dev](https://yael.dev), which is rendering HTML content from DatoCMS with Nuxt, and it works.
+
+### Credits
+
+[Yaël GUILLOUX](mailto:yael.guilloux@gmail.com)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

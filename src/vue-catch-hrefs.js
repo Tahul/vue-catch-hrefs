@@ -4,7 +4,7 @@ import { findParent } from './utils';
 /**
  * Global event bus for in-component data manipulations
  *
- * @type {Vue | CombinedVueInstance<Vue, object, object, object, Record<never, any>>}
+ * @type { Vue }
  */
 export const routeEventBus = new Vue()
 
@@ -49,10 +49,13 @@ export default {
           }
 
           if (path && router.currentRoute.path !== path) {
+            // Prevent the default click event as it is a matched click
             event.preventDefault()
 
+            // Emit the routeEventBus `href` event
             routeEventBus.$emit("href", { path, from, event })
 
+            // Push the path to the router
             router.push({
               path,
             })
@@ -60,5 +63,5 @@ export default {
         }
       }
     }
-  },
+  }
 }
