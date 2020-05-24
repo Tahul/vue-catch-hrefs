@@ -1,10 +1,9 @@
 import Vue from 'vue';
-import VuePlugin from 'vue-plugin';
-
-Vue.use(VuePlugin);
+import VueCatchHrefs from 'vue-catch-hrefs';
 
 export default ({ app }) => {
   // inject options from module
   const opts = [<%= serialize(options) %>][0];
-  app.myPluginSettings = new VuePlugin(opts);
+
+  Vue.use(VueCatchHrefs, app.$router, opts.pathFormatter);
 };

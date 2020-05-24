@@ -2,11 +2,11 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: ['./src/vue-plugin.js'],
+  entry: ['./src/vue-catch-hrefs.js'],
   output: {
-    library: 'VuePlugin',
+    library: 'VueCatchHrefs',
     libraryTarget: 'umd',
-    filename: 'vue-plugin.js',
+    filename: 'vue-catch-hrefs.js',
     globalObject: "typeof self !== 'undefined' ? self : this"
   },
   module: {

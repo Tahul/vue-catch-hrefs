@@ -4,7 +4,7 @@ module.exports = {
     sourceType: 'module'
   },
 
-  extends: ['airbnb', 'prettier'],
+  extends: ['prettier'],
   // required to lint *.vue files
   plugins: ['prettier', 'html'],
 

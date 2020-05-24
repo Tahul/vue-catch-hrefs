@@ -1,8 +1,8 @@
 {
-  "name": "vue-plugin",
+  "name": "vue-catch-hrefs",
   "version": "0.0.1",
-  "description": "Vue Plugin Boilerplate",
-  "main": "dist/vue-plugin.js",
+  "description": "🔗🔗 Catch clicks on hrefs links (in v-html) and route them to vue-router.",
+  "main": "dist/vue-catch-hrefs.js",
   "types": "src/types/index.d.ts",
   "files": [
     "dist",
@@ -11,10 +11,8 @@
   ],
   "scripts": {
     "test": "exit 0;",
-    "storybook": "start-storybook",
     "precommit": "lint-staged",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "example:kitchensink": "poi -s examples/kitchensink/index.js"
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js"
   },
   "lint-staged": {
     "src/**/*.js": [
@@ -28,48 +26,43 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/f/vue-plugin-boilerplate.git"
+    "url": "git+https://github.com/Tahul/vue-catch-hrefs.git"
   },
   "keywords": [
     "vue",
     "querystring",
-    "state",
+    "router",
     "sync"
   ],
-  "author": "Fatih Kadir Akin <fatihkadirakin@gmail.com>",
+  "author": "Yaël GUILLOUX <yael.guilloux@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/f/vue-plugin-boilerplate/issues"
+    "url": "https://github.com/Tahul/vue-catch-hrefs/issues"
   },
-  "homepage": "https://github.com/f/vue-plugin-boilerplate#readme",
+  "homepage": "https://github.com/Tahul/vue-catch-hrefs/issues#readme",
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@storybook/addon-notes": "^5.1.10",
-    "@storybook/vue": "^5.1.10",
-    "babel-loader": "^8.0.6",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
-    "cross-env": "^5.2.0",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "husky": "^3.0.2",
-    "lint-staged": "^9.2.1",
-    "poi": "^12.7.1",
-    "prettier": "^1.18.2",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.6",
+    "poi": "^12.8.0",
+    "prettier": "^2.0.5",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.7.1",
+    "vue-loader": "^15.9.2",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.1.1",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
-  },
-  "peerDependencies": {
-    "vue": "^2.6.10"
+    "vue-template-compiler": "^2.6.11",
+    "vuex": "^3.4.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }

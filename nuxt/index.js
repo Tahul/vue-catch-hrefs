@@ -1,17 +1,15 @@
 /*
-Nuxt.js module for vue-plugin
+Nuxt.js module for vue-catch-hrefs
 Usage:
-    - Install vue-plugin package
+    - Install vue-catch-hrefs package
     - Add this into your nuxt.config.js file:
     {
         modules: [
             // Simple usage
-            'vue-plugin/nuxt'
-            // Optionally passing options in module configuration
-            ['vue-plugin/nuxt', { ...options }]
+            'vue-catch-hrefs/nuxt'
+            // Optionally passing pathFormatter in module configuration
+            ['vue-catch-hrefs/nuxt', { pathFormatter }]
         ],
-        // Optionally passing options in module top level configuration
-        VuePlugin: { ...options }
     }
 */
 
@@ -22,11 +20,12 @@ module.exports = function nuxtVueWaitModule(moduleOptions) {
 
   // Register plugin
   this.addPlugin({
-    src: resolve(__dirname, 'vue-plugin-plugin.template.js.tpl'),
-    fileName: 'vue-plugin-plugin.js',
-    options: options
+    src: resolve(__dirname, 'vue-catch-hrefs.template.js.tpl'),
+    fileName: 'vue-catch-hrefs.js',
+    options: options,
+    ssr: false
   });
 };
 
-// required by nuxt
+// Required by Nuxt
 module.exports.meta = require('../package.json');

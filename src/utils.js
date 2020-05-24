@@ -1,12 +1,21 @@
-export function devMode() {
-  return process.env.NODE_ENV !== 'production';
-}
+/**
+ * Find first parent with specified tag name.
+ *
+ * @param Tag name
+ * @param el
+ * @returns {null|*}
+ */
+export const findParent = (tagname, el) => {
+  // Loop on element
+  while (el) {
+    // Check if target is specified tag name
+    if ((el.nodeName || el.tagName).toLowerCase() === tagname.toLowerCase()) {
+      return el
+    }
 
-// This is a simple helper to create a store inside the Vuex.
-export function registerVuexStore(vuex, storeName, store) {
-  if (!vuex) return;
-  const isRegistered = vuex._modules.get([storeName]);
-  if (!isRegistered) {
-    vuex.registerModule(storeName, store);
+    // Assign el to parent node
+    el = el.parentNode
   }
+
+  return null
 }

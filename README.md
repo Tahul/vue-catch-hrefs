@@ -8,7 +8,9 @@
 
 This plugin aims to catch clicks on `<a href="...">` links referring to your app from user generated content in order to redirect them to your local vue-router.
 
-Listening to the whole DOM allows us to trigger routing to the app from anywhere on the DOM.
+This can be useful to parse links that you add to content from a headless cms, or from any API you consume.
+
+Listening to the whole DOM allows us to trigger routing to the app from anywhere on the DOM, including outside your Vue app if it is bundled inside a page.
 
 You can manipulate data and cancel events easily with the global event bus or with your path formatter.
 
@@ -87,6 +89,7 @@ export default (path, currentRoute) => {
     return false
   }
 
+  // Return the path
   return path
 }
 ```
