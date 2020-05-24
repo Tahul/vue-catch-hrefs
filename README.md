@@ -111,7 +111,7 @@ I can listen to the events from the caught links clicks with the global event bu
 
 I also tried it on my personal website [yael.dev](https://yael.dev), which is rendering HTML content from DatoCMS with Nuxt, and it works.
 
-### Credits
+## Credits
 
 [Yaël GUILLOUX](mailto:yael.guilloux@gmail.com)
 
