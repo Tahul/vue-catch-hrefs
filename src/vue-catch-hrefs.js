@@ -24,8 +24,10 @@ export default {
     }
 
     window.addEventListener('click', (event) => {
-      const { metaKey, altKey, ctrlKey, shiftKey, defaultPrevented } = event
+      // Get the keys needed from the MouseEvent
+      const { metaKey, altKey, ctrlKey, shiftKey, defaultPrevented, button } = event
 
+      // Find the parent tag element using the findParent util
       let from = findParent("a", event.target || event.srcElement)
 
       // Don't handle when preventDefault called
@@ -34,31 +36,38 @@ export default {
       // Don't handle with control keys
       if (metaKey || altKey || ctrlKey || shiftKey) return
 
+      // Don't handle right clicks
+      if (button !== undefined && button !== 0) return
+
       // If the event target is a <a> link continue
       if (from) {
+        // Get the current app path
         const appPath = window.location.protocol + "//" + window.location.host
+
+        // Cast the href value to URL object
+        const url = new URL(from.href)
 
         // If the element href origin includes the app base path
         if (from.href.includes(appPath)) {
           // Remove the app base path from the path
-          let path = from.href.replace(
-            window.location.protocol + "//" + window.location.host,
-            ""
-          )
+          let path = url.pathname
 
           // Call the pathFormatter provided
           if (pathFormatter) {
             path = pathFormatter(path, router.currentRoute)
           }
 
-          if (path && router.currentRoute.path !== path) {
+          // Check if path is true-ish
+          // As pathFormatter can be returning null to cancel the event handling
+          if (path) {
             // Prevent the default click event as it is a matched click
             event.preventDefault()
 
             // Emit the routeEventBus `href` event
-            routeEventBus.$emit("href", { path, from, event })
+            routeEventBus.$emit("href", { url, path, from, event })
 
-            if (path !== 'cancel') {
+            // Check if the target route path isn't the same as the origin
+            if (router.currentRoute.path !== path) {
               // Push the path to the router
               router.push({
                 path,

@@ -58,9 +58,10 @@ export default {
   name: "YourComponent",
 
   mounted() {
-    routeEventBus.$on("href", ({ path, from, event }) => {
+    routeEventBus.$on("href", ({ url, path, from, event }) => {
       // Your data manipulation...
       console.log({ 
+         url,  // The URL object matched from the href attribute
          path, // The path matched after formatting
          from, // The <a> element matched
          event // The MouseEvent caught
