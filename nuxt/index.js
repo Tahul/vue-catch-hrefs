@@ -13,19 +13,19 @@ Usage:
     }
 */
 
-const { resolve } = require('path');
+const { resolve } = require("path")
 
 module.exports = function nuxtVueWaitModule(moduleOptions) {
-  const options = Object.assign({}, this.options.VuePlugin, moduleOptions);
+  const options = Object.assign({}, this.options.VuePlugin, moduleOptions)
 
   // Register plugin
   this.addPlugin({
-    src: resolve(__dirname, 'vue-catch-hrefs.template.js.tpl'),
-    fileName: 'vue-catch-hrefs.js',
+    src: resolve(__dirname, "vue-catch-hrefs.template.js.tpl"),
+    fileName: "vue-catch-hrefs.js",
     options: options,
-    ssr: false
-  });
-};
+    ssr: false,
+  })
+}
 
 // Required by Nuxt
-module.exports.meta = require('../package.json');
+module.exports.meta = require("../package.json")

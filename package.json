@@ -1,6 +1,6 @@
 {
   "name": "vue-catch-hrefs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "🔗🔗 Catch clicks on hrefs links (in v-html) and route them to vue-router.",
   "main": "dist/vue-catch-hrefs.js",
   "types": "src/types/index.d.ts",
@@ -45,6 +45,7 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
     "cross-env": "^7.0.2",
@@ -64,5 +65,11 @@
     "vuex": "^3.4.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "element-closest-polyfill": "^1.0.0"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.11"
   }
 }

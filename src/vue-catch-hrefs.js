@@ -1,5 +1,5 @@
 import Vue from "vue"
-import { findParent } from './utils';
+import "element-closest-polyfill"
 
 /**
  * Global event bus for in-component data manipulations
@@ -23,12 +23,16 @@ export default {
       )
     }
 
-    window.addEventListener('click', (event) => {
+    window.addEventListener("click", (event) => {
       // Get the keys needed from the MouseEvent
-      const { metaKey, altKey, ctrlKey, shiftKey, defaultPrevented, button } = event
-
-      // Find the parent tag element using the findParent util
-      let from = findParent("a", event.target || event.srcElement)
+      const {
+        metaKey,
+        altKey,
+        ctrlKey,
+        shiftKey,
+        defaultPrevented,
+        button,
+      } = event
 
       // Don't handle when preventDefault called
       if (defaultPrevented) return
@@ -39,43 +43,46 @@ export default {
       // Don't handle right clicks
       if (button !== undefined && button !== 0) return
 
-      // If the event target is a <a> link continue
-      if (from) {
-        // Get the current app path
-        const appPath = window.location.protocol + "//" + window.location.host
+      // Find the parent tag element using the `closest` native API
+      let from = (event.target || event.srcElement).closest("a")
 
-        // Cast the href value to URL object
-        const url = new URL(from.href)
+      // Break if there is no parent element matching
+      if (!from) return
 
-        // If the element href origin includes the app base path
-        if (from.href.includes(appPath)) {
-          // Remove the app base path from the path
-          let path = url.pathname
+      // Get the current app path
+      const appPath = window.location.protocol + "//" + window.location.host
 
-          // Call the pathFormatter provided
-          if (pathFormatter) {
-            path = pathFormatter(path, router.currentRoute)
-          }
+      // Cast the href value to URL object
+      const url = new URL(from.href)
 
-          // Check if path is true-ish
-          // As pathFormatter can be returning null to cancel the event handling
-          if (path) {
-            // Prevent the default click event as it is a matched click
-            event.preventDefault()
+      // If the element href origin includes the app base path
+      if (from.href.includes(appPath)) {
+        // Remove the app base path from the path
+        let path = url.pathname
 
-            // Emit the routeEventBus `href` event
-            routeEventBus.$emit("href", { url, path, from, event })
+        // Call the pathFormatter provided
+        if (pathFormatter) {
+          path = pathFormatter(path, router.currentRoute)
+        }
 
-            // Check if the target route path isn't the same as the origin
-            if (router.currentRoute.path !== path) {
-              // Push the path to the router
-              router.push({
-                path,
-              })
-            }
+        // Check if path is truthy
+        // As pathFormatter can be returning null to cancel the event handling
+        if (path) {
+          // Prevent the default click event as it is a matched click
+          event.preventDefault()
+
+          // Emit the routeEventBus `href` event
+          routeEventBus.$emit("href", { url, path, from, event })
+
+          // Check if the target route path isn't the same as the origin
+          if (router.currentRoute.path !== path) {
+            // Push the path to the router
+            router.push({
+              path,
+            })
           }
         }
       }
     })
-  }
+  },
 }
