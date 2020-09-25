@@ -16,12 +16,14 @@ export default {
    * @param router
    * @param pathFormatter
    */
-  install(Vue, router, pathFormatter = null) {
-    if (!router) {
+  install(Vue, pathFormatter = null) {
+    if (!Vue.$router) {
       throw new Error(
         "Cannot find the router, please use vue-router to catch redirections."
       )
     }
+
+    const router = Vue.$router
 
     window.addEventListener("click", (event) => {
       // Get the keys needed from the MouseEvent

@@ -31,7 +31,7 @@ import router from "./router"
 import VueCatchHrefs from "vue-catch-hrefs"
 import pathFormatter from "~/your-plugins-path/pathFormatter"
 
-Vue.use(VueCatchHrefs, router, pathFormatter)
+Vue.use(VueCatchHrefs, pathFormatter)
 ```
 
 ## Usage
