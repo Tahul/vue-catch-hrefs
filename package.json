@@ -1,6 +1,6 @@
 {
   "name": "vue-catch-hrefs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "🔗🔗 Catch clicks on hrefs links (in v-html) and route them to vue-router.",
   "main": "dist/vue-catch-hrefs.min.js",
   "module": "dist/vue-catch-hrefs.esm.js",

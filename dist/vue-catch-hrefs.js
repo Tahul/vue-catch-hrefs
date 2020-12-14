@@ -69,11 +69,18 @@ var vueCatchHrefs = {
       // Get the current app path
       var appPath = window.location.protocol + "//" + window.location.host;
 
-      // Cast the href value to URL object
-      var url = new URL(from.href);
-
       // If the element href origin includes the app base path
       if (from.href.includes(appPath)) {
+        // Init url var
+        var url;
+
+        // Cast the href value to URL object
+        try {
+          url = new URL(from.href);
+        } catch (e) {
+          return
+        }
+
         // Remove the app base path from the path
         var path = url.pathname;
 
