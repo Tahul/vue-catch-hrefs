@@ -12,7 +12,7 @@ mkdirp("dist")
 
 const { name, version } = require("../package.json")
 
-function rollupBundle({ env, plugins = [] }) {
+const rollupBundle = ({ env, plugins = [] }) => {
   return rollup({
     input: "src/vue-catch-hrefs.js",
     plugins: [
@@ -37,18 +37,20 @@ function rollupBundle({ env, plugins = [] }) {
   })
 }
 
-const createBundle = ({ name, env, plugins }) => {
-  return rollupBundle({
-    name,
-    env,
-    plugins,
-  })
-    .then((bundle) => {
-      bundle.write({
-        file: `dist/${name}.js`,
-      })
+const createBundle = async ({ name, env, plugins }) => {
+  try {
+    const bundle = await rollupBundle({
+      name,
+      env,
+      plugins,
     })
-    .catch(console.log)
+
+    bundle.write({
+      file: `dist/${name}.js`,
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 // Browser bundle (can be used with script)
