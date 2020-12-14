@@ -1,6 +1,6 @@
 {
   "name": "vue-catch-hrefs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "🔗🔗 Catch clicks on hrefs links (in v-html) and route them to vue-router.",
   "main": "dist/vue-catch-hrefs.min.js",
   "module": "dist/vue-catch-hrefs.esm.js",
@@ -9,14 +9,12 @@
   "types": "src/types/index.d.ts",
   "files": [
     "dist",
-    "src",
-    "nuxt"
+    "src"
   ],
   "scripts": {
     "test": "exit 0;",
     "precommit": "lint-staged",
     "build": "node build/build.js",
-    "build:dll": "webpack --progress --config build/webpack.config.dll.js",
     "lint": "yon run lint:js",
     "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
     "lint:js:fix": "yon run lint:js -- --fix",

@@ -31,16 +31,16 @@ var vueCatchHrefs = {
    * @param router
    * @param pathFormatter
    */
-  install: function install(Vue, pathFormatter) {
+  install: function install(Vue, router, pathFormatter) {
     if ( pathFormatter === void 0 ) pathFormatter = null;
 
-    if (!Vue.$router) {
+    router = router || Vue.$router;
+
+    if (!router) {
       throw new Error(
         "Cannot find the router, please use vue-router to catch redirections."
       )
     }
-
-    var router = Vue.$router;
 
     window.addEventListener("click", function (event) {
       // Get the keys needed from the MouseEvent
