@@ -4,24 +4,19 @@ const buble = require("rollup-plugin-buble")
 const replace = require("rollup-plugin-replace")
 const cjs = require("rollup-plugin-commonjs")
 const node = require("rollup-plugin-node-resolve")
-const uglify = require("uglify-js")
+const peerDepsExternal = require("rollup-plugin-peer-deps-external")
+const { terser } = require("rollup-plugin-terser")
 
 // Make sure dist dir exists
 mkdirp("dist")
 
-const {
-  logError,
-  write,
-  banner,
-  name,
-  moduleName,
-  version,
-} = require("./utils")
+const { name, version } = require("../package.json")
 
-function rollupBundle({ env }) {
+function rollupBundle({ env, plugins = [] }) {
   return rollup({
-    entry: "src/vue-catch-hrefs.js",
+    input: "src/vue-catch-hrefs.js",
     plugins: [
+      peerDepsExternal(),
       node({
         extensions: [".js"],
       }),
@@ -37,38 +32,23 @@ function rollupBundle({ env }) {
       buble({
         objectAssign: "Object.assign",
       }),
+      ...plugins,
     ],
   })
 }
 
-const bundleOptions = {
-  banner,
-  exports: "named",
-  format: "umd",
-  moduleName,
-}
-
-function createBundle({ name, env, format }) {
+const createBundle = ({ name, env, plugins }) => {
   return rollupBundle({
+    name,
     env,
+    plugins,
   })
-    .then(function (bundle) {
-      const options = Object.assign({}, bundleOptions)
-      if (format) options.format = format
-      const code = bundle.generate(options).code
-      if (/min$/.test(name)) {
-        const minified = uglify.minify(code, {
-          output: {
-            preamble: banner,
-            ascii_only: true, // eslint-disable-line camelcase
-          },
-        }).code
-        return write(`dist/${name}.js`, minified)
-      } else {
-        return write(`dist/${name}.js`, code)
-      }
+    .then((bundle) => {
+      bundle.write({
+        file: `dist/${name}.js`,
+      })
     })
-    .catch(logError)
+    .catch(console.log)
 }
 
 // Browser bundle (can be used with script)
@@ -101,4 +81,5 @@ createBundle({
   env: {
     "process.env.NODE_ENV": '"production"',
   },
+  plugins: [terser()],
 })
